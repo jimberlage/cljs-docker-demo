@@ -2,7 +2,6 @@ FROM ruby:latest
 
 RUN gem install bundler
 
-# All docker-based apps can pretend they own port 3000.
 ENV PORT=3000
 
 EXPOSE 3000
@@ -13,4 +12,4 @@ WORKDIR /opt/extrovert
 
 RUN bundle install
 
-CMD ruby main.rb
+CMD ruby main.rb >> /opt/extrovert/log 2>&1

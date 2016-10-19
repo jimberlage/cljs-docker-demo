@@ -11,7 +11,8 @@
 
 (def db
   (reagent/atom {:apps []
-                 :new-app {:path ""
+                 :new-app {:env ""
+                           :path ""
                            :port ""}
                  :next-id 0}))
 
@@ -51,6 +52,19 @@
                :on-change (fn [event]
                             (swap! app-atom assoc :path (-> event .-target .-value)))
                :type "text"}]]
+     [:div.form-group
+      [:label.control-label "Port"]
+      [:input {:class-name "form-control"
+               :default-value (:port app)
+               :on-change (fn [event]
+                            (swap! app-atom assoc :port (-> event .-target .-value)))
+               :type "text"}]]
+     [:div.form-group
+      [:label.control-label "Environment"]
+      [:textarea {:class-name "form-control"
+                  :default-value (:env app)
+                  :on-change (fn [event]
+                               (swap! app-atom assoc :env (-> event .-target .-value)))}]]
      [:div.form-group
       [:label.control-label "Image ID"]
       [:p.form-control-static (or (:image-id app) "N/A")]]
@@ -110,6 +124,11 @@
                                   (swap! new-app-atom assoc :port (-> event .-target .-value)))
                      :type "text"
                      :value (:port new-app)}]]
+           [:div.form-group
+            [:label.control-label "Environment"]
+            [:textarea {:class-name "form-control"
+                        :on-change (fn [event]
+                                     (swap! new-app-atom assoc :env (-> event .-target .-value)))}]]
            [:div.form-group
             [:button {:class-name "btn btn-small btn-primary"
                       :on-click (fn [event]

@@ -2,7 +2,7 @@
   (:gen-class)
   (:require [clojure.edn :as edn]
             [clojure.java.shell :refer [sh]]
-            [clojure.string :refer [trim-newline]]
+            [clojure.string :refer [split-lines trim-newline]]
             [clojure.core.async :refer [go]]
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.content-type :refer [wrap-content-type]]
@@ -37,7 +37,17 @@
 (defn run-app
   "Runs a container for the given app.  Builds an image for the app if an image does not already exist."
   ([app image-id]
-   (let [result (sh "docker" "run" "--detach" "--publish" (str (:port app) ":3000/tcp") image-id)]
+   (let [args ["docker" "run" "--detach" "--publish" (str "127.0.0.1:" (:port app) ":3000/tcp")]
+         env (split-lines (:env app))
+         env (map (fn [env-var]
+                    ["--env" env-var])
+                  env)
+         env (flatten env)
+         args (concat args env)
+         args (vec args)
+         args (conj args image-id)
+         _ (println (pr-str args))
+         result (apply sh args)]
      (if (= (:exit result) 0)
        ;; Update the app with the returned container id.
        (let [app (assoc app :container-id (trim-newline (:out result)))]

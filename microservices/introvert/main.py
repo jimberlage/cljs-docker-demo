@@ -1,4 +1,5 @@
 from flask import render_template, request, Flask
+import os
 app = Flask(__name__)
 
 MESSAGE = 'No message given yet.'
@@ -20,4 +21,4 @@ def api_message():
         return 'You must submit a message with the request.', 400, {'Content-Type': 'text/html'}
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=os.environ['PORT'])
