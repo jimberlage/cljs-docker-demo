@@ -2,6 +2,8 @@ require 'net/http'
 require 'sinatra'
 require 'uri'
 
+set(:bind, '0.0.0.0')
+
 port = ENV['PORT']
 set(:port, port) if port
 

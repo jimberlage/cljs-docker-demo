@@ -20,4 +20,4 @@ def api_message():
         return 'You must submit a message with the request.', 400, {'Content-Type': 'text/html'}
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')

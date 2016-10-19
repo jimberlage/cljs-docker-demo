@@ -1,5 +1,6 @@
 (set-env! :dependencies '[[adzerk/boot-cljs "1.7.228-1" :scope "test"]
                           [adzerk/boot-reload "0.4.12" :scope "test"]
+                          [cljs-http "0.1.11"]
                           [javax.servlet/servlet-api "2.5" :scope "clj"]
                           [org.clojure/clojure "1.8.0" :scope "clj"]
                           [org.clojure/clojurescript "1.9.229" :scope "test"]
